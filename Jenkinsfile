@@ -22,12 +22,6 @@ pipeline {
             }
         }
 
-        stage('List Files') {
-            steps {
-                bat 'dir target'
-            }
-        }
-
         stage('Rename WAR') {
             steps {
                 powershell '''
@@ -44,18 +38,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sshPublisher(publishers: [
-                    sshPublisherDesc(
-                        configName: REMOTE_SERVER,
-                        transfers: [
-                            sshTransfer(
-                                sourceFiles: NEW_WAR_FILE,
-                                removePrefix: 'target',
-                                remoteDirectory: REMOTE_WEBAPPS_PATH
-                            )
-                        ]
-                    )
-                ])
+                scpript {
+                   sh 'scp -r ${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/'
+                }
             }
         }
     }
