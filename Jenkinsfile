@@ -16,16 +16,16 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 bat 'mvn clean package'
             }
-        }
+        }*/
 
         stage('Check SSH Connection') {
             steps {
                 powershell '''
-                    ssh -o StrictHostKeyChecking=no ${REMOTE_SERVER} "echo SSH connection successful
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_SERVER} "echo SSH connection successful"
                 '''
             }
         }
