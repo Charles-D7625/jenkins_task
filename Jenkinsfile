@@ -27,7 +27,7 @@ pipeline {
                 powershell '''
                     scp -r "C:/ProgramData/Jenkins/.jenkins/workspace/tomcat-pipeline/target/jenkins_task-0.0.1-SNAPSHOT.war" shad@185.65.200.83:/tmp/
                 '''
-            
+            }
         }
     }
 }
