@@ -24,15 +24,12 @@ pipeline {
 
         stage('Rename WAR') {
             steps {
-                powershell '''
-                    $original = "${env.ORIGINAL_WAR_FILE}"
-                    $new = "${env.NEW_WAR_FILE}"
-                    if ($original -ne "" -and $new -ne "") {
-                        Rename-Item -Path $original -NewName $new
-                    } else {
-                        Write-Error "File paths are empty or not defined."
-                    }
-                '''
+                script {
+                    def warFile = "target/jenkins_task-0.0.1-SNAPSHOT.war"
+                    def newWarFile = "target/jenkinstest.war"
+                    bat "rename ${warFile} ${newWarFile}"
+                    env.NEW_WAR_FILE = newWarFile
+                }
             }
         }
 
