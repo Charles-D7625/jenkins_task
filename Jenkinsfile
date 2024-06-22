@@ -26,10 +26,10 @@ pipeline {
             steps {
                 script {
                     def warFile = "C:/ProgramData/Jenkins/.jenkins/workspace/tomcat-pipeline/target/jenkins_task-0.0.1-SNAPSHOT.war"
-                    def newWarFile = "/target/jenkinstest.war"
+                    def newWarFile = "C:/ProgramData/Jenkins/.jenkins/workspace/tomcat-pipeline/target/jenkinstest.war"
                     bat """
                     if exist ${warFile} (
-                        echo FILE IS THERE: ${warFile}
+                        rename ${warFile} ${newWarFile}
                     ) else (
                         echo File not found: ${warFile}
                         exit 1
