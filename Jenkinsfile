@@ -33,10 +33,10 @@ pipeline {
                 powershell '''
                     $original = "${env.ORIGINAL_WAR_FILE}"
                     $new = "${env.NEW_WAR_FILE}"
-                    if (Test-Path $original) {
+                    if ($original -ne "" -and $new -ne "") {
                         Rename-Item -Path $original -NewName $new
                     } else {
-                        Write-Error "File not found: $original"
+                        Write-Error "File paths are empty or not defined."
                     }
                 '''
             }
