@@ -25,7 +25,7 @@ pipeline {
         stage('Check SSH Connection') {
             steps {
                 powershell '''
-                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "echo SSH connection successful
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_SERVER} "echo SSH connection successful
                 '''
             }
         }
