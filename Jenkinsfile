@@ -38,7 +38,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo ${env.NEW_WAR_FILE}
+                echo NEW_WAR_FILE
                 sh 'scp -r ${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/'
             }
         }
