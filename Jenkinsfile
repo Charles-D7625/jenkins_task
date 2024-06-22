@@ -38,7 +38,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'scp -r ${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/'
+                scpript {
+                   sh 'scp -r ${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/'
+                }
             }
         }
     }
