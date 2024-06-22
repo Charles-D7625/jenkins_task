@@ -49,7 +49,7 @@ pipeline {
                         configName: REMOTE_SERVER,
                         transfers: [
                             sshTransfer(
-                                sourceFiles: WAR_FILE,
+                                sourceFiles: NEW_WAR_FILE,
                                 removePrefix: 'target',
                                 remoteDirectory: REMOTE_WEBAPPS_PATH
                             )
