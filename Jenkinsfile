@@ -25,8 +25,8 @@ pipeline {
         stage('Rename WAR') {
             steps {
                 script {
-                    def warFile = "target/jenkins_task-0.0.1-SNAPSHOT.war"
-                    def newWarFile = "target/jenkinstest.war"
+                    def warFile = "/target/jenkins_task-0.0.1-SNAPSHOT.war"
+                    def newWarFile = "/target/jenkinstest.war"
                     bat """
                     if exist ${warFile} (
                         rename ${warFile} ${newWarFile}
