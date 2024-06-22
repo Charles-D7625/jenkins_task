@@ -22,6 +22,12 @@ pipeline {
             }
         }
 
+        stage('List Files') {
+            steps {
+                bat 'dir target'
+            }
+        }
+
         stage('Rename WAR') {
             steps {
                 bat "rename ${env.ORIGINAL_WAR_FILE} ${env.NEW_WAR_FILE}"
