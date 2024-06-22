@@ -30,7 +30,15 @@ pipeline {
 
         stage('Rename WAR') {
             steps {
-                bat "rename ${env.ORIGINAL_WAR_FILE} ${env.NEW_WAR_FILE}"
+                powershell '''
+                    $original = "${env.ORIGINAL_WAR_FILE}"
+                    $new = "${env.NEW_WAR_FILE}"
+                    if (Test-Path $original) {
+                        Rename-Item -Path $original -NewName $new
+                    } else {
+                        Write-Error "File not found: $original"
+                    }
+                '''
             }
         }
 
