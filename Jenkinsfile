@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 powershell '''
-                    scp -r ${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/
+                    scp -r "${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/"
                 '''
             }
         }
