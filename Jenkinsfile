@@ -22,30 +22,12 @@ pipeline {
             }
         }
 
-        stage('Rename WAR') {
-            steps {
-                script {
-                    def warFile = "C:/ProgramData/Jenkins/.jenkins/workspace/tomcat-pipeline/target/jenkins_task-0.0.1-SNAPSHOT.war"
-                    def newWarFile = "C:/ProgramData/Jenkins/.jenkins/workspace/tomcat-pipeline/target/jenkinstest.war"
-                    bat """
-                    if exist ${warFile} (
-                        rename ${warFile} ${newWarFile}
-                    ) else (
-                        echo File not found: ${warFile}
-                        exit 1
-                    )
-                    """
-                    env.NEW_WAR_FILE = newWarFile
-                }
-            }
-        }
-
         stage('Deploy') {
             steps {
                 powershell '''
-                    scp -r "${env.NEW_WAR_FILE} shad@185.65.200.83:/tmp/"
+                    scp -r "C:/ProgramData/Jenkins/.jenkins/workspace/tomcat-pipeline/target/jenkins_task-0.0.1-SNAPSHOT.war" shad@185.65.200.83:/tmp/
                 '''
-            }
+            
         }
     }
 }
