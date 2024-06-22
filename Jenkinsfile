@@ -27,7 +27,14 @@ pipeline {
                 script {
                     def warFile = "target/jenkins_task-0.0.1-SNAPSHOT.war"
                     def newWarFile = "target/jenkinstest.war"
-                    bat "rename ${warFile} ${newWarFile}"
+                    bat """
+                    if exist ${warFile} (
+                        rename ${warFile} ${newWarFile}
+                    ) else (
+                        echo File not found: ${warFile}
+                        exit 1
+                    )
+                    """
                     env.NEW_WAR_FILE = newWarFile
                 }
             }
