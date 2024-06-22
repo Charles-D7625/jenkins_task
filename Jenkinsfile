@@ -22,6 +22,14 @@ pipeline {
             }
         }
 
+        stage('Check SSH Connection') {
+            steps {
+                sshagent(['ssh-key-credentials']) {
+                    sh 'ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "echo SSH connection successful"'
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 powershell '''
