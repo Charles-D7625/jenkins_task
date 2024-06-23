@@ -27,9 +27,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'SSH_KEY')]) {
-                    bat '''
-                        echo "Using SSH Key: $SSH_KEY"
-                        scp -i $SSH_KEY -o StrictHostKeyChecking=no $ORIGINAL_WAR_FILE shad@185.65.200.83:/tmp/
+                    powershell  '''
+                        echo "Using SSH Key: ${SSH_KEY}"
+                        scp -i ${SSH_KEY} -o StrictHostKeyChecking=no ${ORIGINAL_WAR_FILE} shad@185.65.200.83:/tmp/
                     '''
                 }
             }
