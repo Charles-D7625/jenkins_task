@@ -26,9 +26,13 @@ pipeline {
  
         stage('Deploy') {
             steps {
-                bat """ 
-                    ssh ${env.TOMCAT_CREDS} ${env.REMOTE_SERVER}
-                """
+                script  {
+                   sshagent(['tomcat-ssh-key']) {
+                        // Копирование WAR файла на удаленный сервер
+                        // Перезапуск Tomcat на удаленном сервере
+                        sh 'ssh -o StrictHostKeyChecking=no shad@185.65.200.83 "sudo systemctl restart tomcat"'
+                    } 
+                }
             }
         }
     }
