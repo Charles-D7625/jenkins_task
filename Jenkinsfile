@@ -1,8 +1,8 @@
 pipeline {
     agent any
 
-    /*environment {
-        TOMCAT_CREDS=credentials('ssh-key')
+    environment {
+        TOMCAT_CREDS=credentials('tomcat-ssh-key')
         ORIGINAL_WAR_FILE = "target/jenkins_task-0.0.1-SNAPSHOT.war"
         NEW_WAR_FILE = "target/jenkinstest.war"
         SSH_CREDENTIALS_ID = "github-ssh-key"
@@ -12,24 +12,24 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        /*stage('Checkout') {
             steps {
                 git url: 'https://github.com/Charles-D7625/jenkins_task.git', branch: 'master'
             }
         }
  
-        /*stage('Build') {
+        stage('Build') {
             steps {
                 bat 'mvn clean package'
             }
-        }
+        }*/
 
         stage('Deploy') {
             steps {
                 bat """ 
-                    scp -i ${env.TOMCAT_CREDS} ${env.ORIGINAL_WAR_FILE} ${env.REMOTE_SERVER}:/tmp/
+                    ssh ${env.TOMCAT_CREDS} ${env.REMOTE_SERVER}
                 """
             }
         }
-    }*/
+    }
 }
