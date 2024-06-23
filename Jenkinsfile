@@ -12,8 +12,8 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            steps {
-                git url: 'https://github.com/Charles-D7625/jenkins_task.git', branch: 'master'
+            sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+                    sh 'git clone git@github.com:your-username/your-repo.git'
             }
         }
 
@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat """ 
-                    scp -i ${TOMCAT_CREDS} ${ORIGINAL_WAR_FILE} ${REMOTE_SERVER}:/tmp/
+                    scp -i ${env.TOMCAT_CREDS} ${env.ORIGINAL_WAR_FILE} ${env.REMOTE_SERVER}:/tmp/
                 """
             }
         }
