@@ -23,12 +23,18 @@ pipeline {
             }
         }*/
 
-        stage('Deploy') {
+        stage('Check ssh key') {
+            steps {
+                echo TOMCAT_CREDS
+            }
+        }
+
+        /*stage('Deploy') {
             steps {
                 bat '''
                     scp -i $TOMCAT_CREDS $ORIGINAL_WAR_FILE shad@185.65.200.83:/tmp/
                 '''
             }
-        }
+        }*/
     }
 }
