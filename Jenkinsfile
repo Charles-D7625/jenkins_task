@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'git@github.com:Charles-D7625/jenkins_task.git', branch: 'master'
+                git url: 'https://github.com/Charles-D7625/jenkins_task.git', branch: 'master'
             }
         }
 
