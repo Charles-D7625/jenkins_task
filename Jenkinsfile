@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TOMCAT_CREDS=credentials('tomcat-ssh-key')
+        TOMCAT_CREDS=credentials('ssh-key')
         ORIGINAL_WAR_FILE = "target/jenkins_task-0.0.1-SNAPSHOT.war"
         NEW_WAR_FILE = "target/jenkinstest.war"
         SSH_CREDENTIALS_ID = "github-ssh-key"
