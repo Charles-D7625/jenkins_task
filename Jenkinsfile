@@ -2,32 +2,35 @@ pipeline {
     agent any
 
     environment {
-        TOMCAT_CREDS=credentials('tomcat-ssh-key')
-        ORIGINAL_WAR_FILE = "target/jenkins_task-0.0.1-SNAPSHOT.war"
-        NEW_WAR_FILE = "target/jenkinstest.war"
-        SSH_CREDENTIALS_ID = "github-ssh-key"
-        REMOTE_SERVER = "http://185.65.200.83:8085/"
-        REMOTE_WEBAPPS_PATH = "/opt/tomcat/webapps"
+        TOMCAT_USER = 'admin'
+        TOMCAT_PASSWORD = 'password'
+        TOMCAT_URL = 'http://185.65.200.83:8085/manager/text'
+        APP_NAME = 'jenkinstest'
+        WAR_FILE = 'target/jenkins_task-0.0.1-SNAPSHOT.war'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'git@github.com:Charles-D7625/jenkins_task.git', branch: 'master'
+                git url: 'https://github.com/Charles-D7625/jenkins_task.git', branch: 'master'
             }
         }
 
-        /*stage('Build') {
+        stage('Build') {
             steps {
-                bat 'mvn clean package'
+                bat 'mvn clean install'
             }
-        }*/
+        }
+
 
         stage('Deploy') {
             steps {
-                bat '''
-                    scp -i $TOMCAT_CREDS $ORIGINAL_WAR_FILE shad@185.65.200.83:/tmp/
-                '''
+                script {
+                    def deployUrl = "${env.TOMCAT_URL}/deploy?path=/${env.APP_NAME}&update=true"
+                    bat """
+                    curl -v -u ${env.TOMCAT_USER}:${env.TOMCAT_PASSWORD} --upload-file ${env.WAR_FILE} "${deployUrl}"
+                    """
+                }
             }
         }
     }
