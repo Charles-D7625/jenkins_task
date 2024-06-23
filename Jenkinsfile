@@ -25,7 +25,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh '''
+                bat '''
                     scp -i $TOMCAT_CREDS $ORIGINAL_WAR_FILE shad@185.65.200.83:/tmp/
                 '''
             }
