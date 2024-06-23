@@ -26,12 +26,16 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'SSH_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'keyFile', passphraseVariable: 'pass', usernameVariable: 'shad')]) {
+                    def remote = [name: 'hostile', host: '185.65.200.83', user: shad, identityFile: keyFile, allowAnyHosts: true]
+                    sshCommand remote: remote, command: "ls /opt/tomcat"
+                }
+                /*withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'SSH_KEY')]) {
                     powershell  '''
                         echo "Using SSH Key: ${SSH_KEY}"
                         scp -i ${SSH_KEY} -o StrictHostKeyChecking=no ${ORIGINAL_WAR_FILE} shad@185.65.200.83:/tmp/
                     '''
-                }
+                }*/
             }
         }
     }
