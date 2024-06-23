@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    environment {
+    /*environment {
         TOMCAT_CREDS=credentials('ssh-key')
         ORIGINAL_WAR_FILE = "target/jenkins_task-0.0.1-SNAPSHOT.war"
         NEW_WAR_FILE = "target/jenkinstest.war"
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 bat 'mvn clean package'
             }
-        }*/
+        }
  
         stage('Deploy') {
             steps {
@@ -31,5 +31,5 @@ pipeline {
                 """
             }
         }
-    }
+    }*/
 }
