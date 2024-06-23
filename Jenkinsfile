@@ -23,18 +23,15 @@ pipeline {
             }
         }*/
 
-        stage('Check ssh key') {
+
+        stage('Deploy') {
             steps {
-                echo TOMCAT_CREDS
+                withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'SSH_KEY')]) {
+                    bat '''
+                        scp -i ${SSH_KEY} -o StrictHostKeyChecking=no $ORIGINAL_WAR_FILE shad@185.65.200.83:/tmp/
+                    '''
+                }
             }
         }
-
-        /*stage('Deploy') {
-            steps {
-                bat '''
-                    scp -i $TOMCAT_CREDS $ORIGINAL_WAR_FILE shad@185.65.200.83:/tmp/
-                '''
-            }
-        }*/
     }
 }
