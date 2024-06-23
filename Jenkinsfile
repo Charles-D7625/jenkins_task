@@ -11,9 +11,12 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
-            sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
-                    sh 'git clone git@github.com:your-username/your-repo.git'
+            steps {
+                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+                        sh 'git clone git@github.com:your-username/your-repo.git'
+                }
             }
         }
  
