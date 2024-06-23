@@ -14,9 +14,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
-                        sh 'git clone git@github.com:your-username/your-repo.git'
-                }
+                git url: 'https://github.com/Charles-D7625/jenkins_task.git', branch: 'master'
             }
         }
  
