@@ -25,7 +25,7 @@ pipeline {
  
         stage('Deploy') {
             steps {
-                bat """
+                bat """ 
                     scp -i ${TOMCAT_CREDS} ${ORIGINAL_WAR_FILE} ${REMOTE_SERVER}:/tmp/
                 """
             }
