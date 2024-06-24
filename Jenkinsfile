@@ -32,6 +32,9 @@ pipeline {
                         // Перезапуск Tomcat на удаленном сервере
                         bat """
                             @echo off
+                            powershell -Command "Start-Process -NoNewWindow -FilePath 'icacls' -ArgumentList '%SSH_KEY%', '/inheritance:r' -Wait"
+                            powershell -Command "Start-Process -NoNewWindow -FilePath 'icacls' -ArgumentList '%SSH_KEY%', '/grant:r', '%COMPUTERNAME%\\%USERNAME%:F' -Wait"
+                            powershell -Command "Start-Process -NoNewWindow -FilePath 'icacls' -ArgumentList '%SSH_KEY%', '/remove:g', 'everyone' -Wait"
                             echo Connect Tomcat on remote server
                             ssh -i %KEYFILE% -o StrictHostKeyChecking=no shad@185.65.200.83 "sudo ls"
                         """
