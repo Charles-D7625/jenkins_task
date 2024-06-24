@@ -27,13 +27,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script  {
-                    sshPublisher continueOnError: true, failOnError: true, publishers: [sshPublisherDesc(configName: 'server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'temp', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'jenkins_task/target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)] {
-
-                        powershell """
-                            ssh shad@185.65.200.83 "sudo systemctl status tomcat"
-                        """
-
-                    }
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'sudo systemctl status tomcat', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'temp', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'jenkins_task/target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 }
             }
         }
