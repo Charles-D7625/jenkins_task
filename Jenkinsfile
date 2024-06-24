@@ -27,10 +27,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 script  {
-                   sshagent(['tomcat-ssh-key']) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'KEYFILE', passphraseVariable: '', usernameVariable: 'shad')]) {
                         // Копирование WAR файла на удаленный сервер
                         // Перезапуск Tomcat на удаленном сервере
-                        sh 'ssh -o StrictHostKeyChecking=no shad@185.65.200.83 "sudo systemctl restart tomcat"'
+                        sh """
+                            ssh -i ${KEYFILE}  -o StrictHostKeyChecking=no shad@185.65.200.83 "sudo ls"
+                        """
                     } 
                 }
             }
