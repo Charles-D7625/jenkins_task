@@ -27,18 +27,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 script  {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-ssh-key', keyFileVariable: 'KEYFILE', passphraseVariable: '', usernameVariable: 'shad')]) {
-                        // Копирование WAR файла на удаленный сервер
-                        // Перезапуск Tomcat на удаленном сервере
-                        bat """
-                            @echo off
-                            powershell -Command "Start-Process -NoNewWindow -FilePath 'icacls' -ArgumentList '%SSH_KEY%', '/inheritance:r' -Wait"
-                            powershell -Command "Start-Process -NoNewWindow -FilePath 'icacls' -ArgumentList '%SSH_KEY%', '/grant:r', '%COMPUTERNAME%\\%USERNAME%:F' -Wait"
-                            powershell -Command "Start-Process -NoNewWindow -FilePath 'icacls' -ArgumentList '%SSH_KEY%', '/remove:g', 'everyone' -Wait"
-                            echo Connect Tomcat on remote server
-                            ssh -i %KEYFILE% -o StrictHostKeyChecking=no shad@185.65.200.83 "sudo ls"
+                    sshPublisher continueOnError: true, failOnError: true, publishers: [sshPublisherDesc(configName: 'server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'temp', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'jenkins_task/target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)] {
+
+                        powershell """
+                            ssh shad@185.65.200.83 "sudo systemctl status tomcat"
                         """
-                    } 
+
+                    }
                 }
             }
         }
